@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Tiempo</title>
+		<style type="text/css">
+			div img {
+				margin: 50px 0px 0px 560px;
+			}
+			#buscador{
+				margin: 55px 0px 0px 560px;
+				width: 200px;
+				background-color:white;
+				border: 4px solid #009ee2;
+			}
+			#ciudad{
+				height: 30px;
+				border:0px;
+				margin-left: 10px;
+			}
+			#resultado{
+				background-color: white;
+				border:0px;
+				margin-top: 8px;
+				margin-left: 10px;
+			}
+			.informacion{
+				margin: 0px 0px 0px 0px;
+				text-align: center;
+				color:#009ee2;
+				font-family:"arial";
+			}
+			h1{
+				color:#747677;
+			}
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+  				$('form').submit(function() {
+        		 	var ciudad= $("#ciudad").val();
+        			$.get("http://api.openweathermap.org/data/2.5/weather?q="+ciudad+"&APPID=768b6eb83219c80f540c42a6f64854d1", function(res) {
+           			//console.log (res);
+           			//console.log (res.weather[0].main);
+           			//console.log (res.weather[0].description);
+           			//console.log(res.wind);
+           			//console.log(res.main.temp);
+           			//console.log(res.main.temp_min);
+           			//console.log(res.main.temp_max);
+           			//console.log(res.main.humidity);
+           			var x="";
+           			x += "<h1>"+ res.name+"</h1>"
+           			x += "<h3>Clima: "+ res.weather[0].main+"</h3>"
+           			x += "<h3>Temperatura: " + (parseInt(res.main.temp) - 273.15 + '').substr(0, 4) + "°C</h3>"
+           			x += "<h3>Viento: "+ res.wind.speed+"</h3>"
+           			//x += "<h3>Temperatura: "+ res.main.temp+"</h3>"
+           			x += "<h3>Temp Min: "+ (parseInt(res.main.temp_min) - 273.15 + '').substr(0, 4) + "°C</h3>"
+           			x += "<h3>Temp Máx: "+ res.main.temp_max+"</h3>"
+           			x += "<h3>Humedad: "+ res.main.humidity+"</h3>"
+        			$(".informacion").html(x);
+           			}, 'json');
+        			return false;
+    			})
+			});
+		</script>	
+	</head>
+	<body>
+		<div class="fondo">
+			<img src="tiempo.png" width="200px">
+		</div>
+		<form id="buscador">
+			<input id="ciudad" type="text" placeholder="El Tiempo en...">
+			
+			<button id="resultado" type="submit" class="boton">
+				<span class="icono">
+					<img src="icono.png" width="16px">
+				</span>
+			</button>
+		</form>
+		<div class="informacion"></div>
+	</body>
+</html>
