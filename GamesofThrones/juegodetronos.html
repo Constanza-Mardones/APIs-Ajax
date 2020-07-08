@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>The Games of Thrones</title>
+	<style type="text/css">
+		input{
+			width: 200px;
+			height: 100px;
+
+		}
+		.images{
+			margin:50px 0px 0px 0px;
+			text-align: center;
+		}
+		.informacion{
+			text-align: center;
+		}
+	</style>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('input').click(function() {
+        		var casas= $(this).val();
+        		casas = casas.replace(/\s/g, "%20");
+        		$.get("https://www.anapioficeandfire.com/api/houses?name=" + casas , function (res) {
+            		//console.log(res);
+            		var info="";
+            		info += "<h3>Name: "+ res[0].name+"</h3>"
+            		info += "<h3>Region: "+ res[0].region+"</h3>"
+            		info += "<h3>Founded: "+ res[0].founded+"</h3>"
+            		info += "<h3>Titles: "+ res[0].titles+"</h3>"
+            		info += "<h3>Words: "+ res[0].words+"</h3>"
+            		$(".informacion").html(info);
+           		}, 'json');
+        		return false;
+    		})
+		});
+	</script>
+</head>
+<body>
+	<div class="images">
+		<input type="image"  src="baratheon.png" value="House Baratheon of Storm's End">
+		<input type="image"  src="lannister.jpg" value="House Lannister of Casterly Rock">
+		<input type="image"  src="stark.jpg" value="House Stark of Winterfell">
+		<input type="image"  src="targaryen.jpg" value="House Targaryen of King's Landing">
+	</div>
+	<div class="informacion"></div>
+</body>
+</html>
