@@ -3,15 +3,25 @@
 	<head>
 		<meta charset="utf-8">
 		<title>¿Cual es ese Pokemon?</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 		<style type="text/css">
-			.fondo{
-				text-align:center;
+			#izquierda{
+				width: 800px;
+				display: inline-block;
+			}
+			.derecha{
+				width: 400px;
+				display: inline-block;
+				text-align: center;
+				vertical-align: top;
+				position:fixed;
 			}
 			img{
 				margin-top: 10px;
 				margin-bottom: 30px;
 			}
 			.info{
+				position: absolute;
 				font-family: "arial";
 			}
 			h1{
@@ -36,29 +46,44 @@
 					var j = $(this).attr("id");  
                 	$.get("https://pokeapi.co/api/v2/pokemon/"+j, function(res) {
 
-    					//console.log(res.name);
+    					console.log(res);
     					//console.log(res.types);
     					//console.log(res.abilities);
     					
     					var n = "";
     					n += "<h1>"+ res.name+"</h1>"
-    					n += "<h2>Types: "+ res.types[0].type.name+ "</h2>"
+
+    					n+= "<img src='"+res.sprites.front_default+"'>";
+    					n+= "<img src='"+res.sprites.back_default+"'>";
+    					n+= "<img src='"+res.sprites.front_shiny+"'>";
+    					n+= "<img src='"+res.sprites.back_shiny+"'>";
+
+    					n += "<h2>ID: "+ res.id+ "</h2>"
+    					n += "<h2>Tipo: "+ res.types[0].type.name+ "</h2>"
     					n += "<h2>Altura: "+ res.height+ "</h2>"
     					n += "<h2>Peso: "+ res.weight+ "</h2>"
     					n += "<h2>Habilidad: "+ res.abilities[0].ability.name+"</h2>"
-    					$(".info").html(n);
+    					for (var i = 0; i < 2; i++) {
+    						n += "<h2>Movimiento: "+ res.moves[i].move.name+ "</h2>"		
+    					}
+    					$("#info").html(n);
 					}, "json");
             	})
 			})						 
 		</script>
 	</head>
 	<body>
-		<div class="fondo">
-			<img src="pokebola.png" width="100px">
-			<img src="logo.png"width="300px">
-			<img src="pokebola.png" width="100px">
-			<div id="imagenes"></div>
-			<div class= "info"></div>
+		<div class="container">
+			
+			<div id="izquierda" class="text-center">
+				<img src="pokebola.png" width="100px">
+				<img src="logo.png"width="300px">
+				<img src="pokebola.png" width="100px">
+				<div id="imagenes"></div>
+			</div>
+			<div class="derecha mt-5">
+				<div id="info"></div>
+			</div>
 		</div>	
 	</body>
 </html>
